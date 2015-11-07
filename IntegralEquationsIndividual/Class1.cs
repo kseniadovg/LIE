@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IntegralEquationsIndividual
 {
-    class asd
+    class Class1
     {
     }
 }
