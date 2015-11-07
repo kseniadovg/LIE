@@ -1,0 +1,8 @@
+C:\Users\levus\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.csprojResolveAssemblyReference.cache
+C:\Users\levus\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.Form1.resources
+C:\Users\levus\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.Properties.Resources.resources
+C:\Users\levus\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.csproj.GenerateResource.Cache
+C:\Users\levus\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\bin\Debug\IntegralEquationsIndividual.exe
+C:\Users\levus\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\bin\Debug\IntegralEquationsIndividual.pdb
+C:\Users\levus\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.exe
+C:\Users\levus\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.pdb
