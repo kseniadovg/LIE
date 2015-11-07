@@ -13,6 +13,8 @@ namespace IntegralEquationsIndividual
     {
         public Form1()
         {
+            int a = 2 + 1;
+
             InitializeComponent();
         }
 
