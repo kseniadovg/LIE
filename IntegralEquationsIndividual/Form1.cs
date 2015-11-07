@@ -30,12 +30,12 @@ namespace MyNamespace
     }
 }";
         private static string begin1 = @"using System;
-namespace MyNamespace
+namespace DFunction
 {
-    public delegate double Del(double t);
-    public static class LambdaCreator
+    public delegate double Del(double y1, double y2);
+    public static class CreateFunc
     {
-        public static Del Create()
+        public static Del CreateF()
         {
             return (y1,y2)=>";
 
@@ -68,8 +68,8 @@ namespace MyNamespace
             parameters.ReferencedAssemblies.Add("System.dll");
             CompilerResults results;
             results = provider.CompileAssemblyFromSource(parameters, begin1 + text + end);
-            var cls = results.CompiledAssembly.GetType("MyNamespace.LambdaCreator");
-            var method = cls.GetMethod("Create", BindingFlags.Static | BindingFlags.Public);
+            var cls = results.CompiledAssembly.GetType("DFunction.CreateFunc");
+            var method = cls.GetMethod("CreateF", BindingFlags.Static | BindingFlags.Public);
             del = method.Invoke(null, null) as Delegate;
         }
 
@@ -104,16 +104,17 @@ namespace MyNamespace
                 sum += (double)fZero.DynamicInvoke((double)y.a.DynamicInvoke(i), (double)y.b.DynamicInvoke(i)) * GreenFunction(y, x, i);
             }
             double b = (double)fZero.DynamicInvoke((double)y.a.DynamicInvoke(2 * Math.PI), (double)y.b.DynamicInvoke(2 * Math.PI)) * GreenFunction(y, x, 2 * Math.PI);
+
             return a + sum + b;
         }
 
 
         private Vector<double> Mju(double t)
         {
-            double KsiPrime = - 2 * Math.Cos(t);
-            double PhiPrime = 2 * Math.Sin(t);
+            double KsiPrime = 2 * Math.Cos(t);
+            double PhiPrime = - 2 * Math.Sin(t);
             double a = KsiPrime / Math.Sqrt(Math.Pow(KsiPrime, 2) + Math.Pow(PhiPrime, 2));
-            double b = PhiPrime / Math.Sqrt(Math.Pow(KsiPrime, 2) + Math.Pow(PhiPrime, 2));
+            double b = - PhiPrime / Math.Sqrt(Math.Pow(KsiPrime, 2) + Math.Pow(PhiPrime, 2));
             Vector<double> Mju = new Vector<double>(a, b);
             return Mju;
         }
