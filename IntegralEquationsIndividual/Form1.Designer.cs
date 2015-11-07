@@ -60,6 +60,7 @@
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -86,18 +87,18 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 149);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(112, 18);
+            this.label3.Size = new System.Drawing.Size(148, 18);
             this.label3.TabIndex = 3;
-            this.label3.Text = "φ(t) =               cos(t)";
+            this.label3.Text = "φ(t) =               Math.Cos(t)";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(11, 177);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(113, 18);
+            this.label4.Size = new System.Drawing.Size(147, 18);
             this.label4.TabIndex = 4;
-            this.label4.Text = " ψ(t) =              sin(t)";
+            this.label4.Text = " ψ(t) =              Math.Sin(t)";
             // 
             // label5
             // 
@@ -340,11 +341,22 @@
             this.zedGraphControl1.Size = new System.Drawing.Size(298, 313);
             this.zedGraphControl1.TabIndex = 31;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(407, 98);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 28);
+            this.button1.TabIndex = 32;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(840, 506);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.textBox13);
             this.Controls.Add(this.textBox12);
@@ -418,6 +430,7 @@
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.TextBox textBox13;
         private ZedGraph.ZedGraphControl zedGraphControl1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
