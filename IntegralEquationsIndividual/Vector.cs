@@ -15,5 +15,7 @@ namespace IntegralEquationsIndividual
             this.a = a;
             this.b = b;
         }
+        public Vector()
+        { }
     }
 }
