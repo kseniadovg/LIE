@@ -7,8 +7,8 @@ namespace IntegralEquationsIndividual
 {
     class Vector<T>
     {
-        public T a { get; private set; }
-        public T b { get; private set; }
+        public T a { get; set; }
+        public T b { get; set; }
 
         public Vector(T a, T b)
         {
@@ -16,6 +16,9 @@ namespace IntegralEquationsIndividual
             this.b = b;
         }
         public Vector()
-        { }
+        {
+            a = default(T);
+            b = default(T);
+        }
     }
 }
