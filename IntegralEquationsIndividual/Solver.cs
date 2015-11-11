@@ -7,5 +7,17 @@ namespace IntegralEquationsIndividual
 {
     class Solver
     {
+        public Problem p;
+        public double step;
+
+        public Solver(Problem pr)
+        {
+            p = pr;
+        }
+
+        public void Solve()
+        {
+
+        }
     }
 }

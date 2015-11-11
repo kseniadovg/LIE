@@ -61,12 +61,16 @@
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.button1 = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(382, 9);
+            this.label1.Location = new System.Drawing.Point(281, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 72);
             this.label1.TabIndex = 1;
@@ -76,9 +80,10 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Location = new System.Drawing.Point(12, 120);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(97, 18);
+            this.label2.Size = new System.Drawing.Size(99, 20);
             this.label2.TabIndex = 2;
             this.label2.Text = "Γ0 = ( φ(t), ψ(t) )";
             // 
@@ -103,9 +108,10 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label5.Location = new System.Drawing.Point(12, 215);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(111, 18);
+            this.label5.Size = new System.Drawing.Size(113, 20);
             this.label5.TabIndex = 5;
             this.label5.Text = "Γ1 = ( φ1(t), ψ1(t) )";
             // 
@@ -130,9 +136,10 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label8.Location = new System.Drawing.Point(12, 311);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(111, 18);
+            this.label8.Size = new System.Drawing.Size(113, 20);
             this.label8.TabIndex = 8;
             this.label8.Text = "Γ2 = ( φ2(t), ψ2(t) )";
             // 
@@ -178,14 +185,17 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(147, 23);
             this.textBox3.TabIndex = 13;
+            this.textBox3.Text = "0.5*Math.Cos(t)";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(58, 273);
+            this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(147, 23);
             this.textBox4.TabIndex = 14;
+            this.textBox4.Text = "0.4*Math.Sin(t)-0.3*Math.Sin(t)*Math.Sin(t)";
             this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox5
@@ -194,6 +204,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(147, 23);
             this.textBox5.TabIndex = 15;
+            this.textBox5.Text = "0.5*Math.Cos(t)";
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox6
@@ -202,6 +213,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(147, 23);
             this.textBox6.TabIndex = 16;
+            this.textBox6.Text = "1+0.5*Math.Sin(t)";
             this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label11
@@ -300,14 +312,16 @@
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(147, 23);
             this.textBox10.TabIndex = 27;
+            this.textBox10.Text = "-0.5*Math.Sin(t)";
             this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox11
             // 
             this.textBox11.Location = new System.Drawing.Point(303, 273);
             this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(147, 23);
+            this.textBox11.Size = new System.Drawing.Size(146, 23);
             this.textBox11.TabIndex = 28;
+            this.textBox11.Text = "0.4*Math.Cos(t)-0.6*Math.Sin(t)*Math.Cos(t)";
             this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox12
@@ -316,6 +330,7 @@
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(147, 23);
             this.textBox12.TabIndex = 29;
+            this.textBox12.Text = "-0.5*Math.Sin(t)";
             this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox13
@@ -324,11 +339,12 @@
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(147, 23);
             this.textBox13.TabIndex = 30;
+            this.textBox13.Text = "0.5*Math.Cos(t)";
             this.textBox13.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // zedGraphControl1
             // 
-            this.zedGraphControl1.Location = new System.Drawing.Point(519, 129);
+            this.zedGraphControl1.Location = new System.Drawing.Point(502, 174);
             this.zedGraphControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
@@ -338,24 +354,66 @@
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(298, 313);
+            this.zedGraphControl1.Size = new System.Drawing.Size(351, 340);
             this.zedGraphControl1.TabIndex = 31;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(407, 98);
+            this.button1.Location = new System.Drawing.Point(725, 25);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 28);
             this.button1.TabIndex = 32;
-            this.button1.Text = "button1";
+            this.button1.Text = "Read data";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(518, 49);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(31, 18);
+            this.label18.TabIndex = 33;
+            this.label18.Text = "Step";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(579, 46);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(74, 23);
+            this.textBox14.TabIndex = 34;
+            this.textBox14.Text = "0,1";
+            this.textBox14.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(725, 69);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 28);
+            this.button2.TabIndex = 35;
+            this.button2.Text = "Draw";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(725, 112);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 28);
+            this.button3.TabIndex = 36;
+            this.button3.Text = "Solve";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 506);
+            this.ClientSize = new System.Drawing.Size(878, 527);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.textBox14);
+            this.Controls.Add(this.label18);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.textBox13);
@@ -391,6 +449,7 @@
             this.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dirichlet-Neumann Problem for Laplace Equation";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -431,6 +490,10 @@
         private System.Windows.Forms.TextBox textBox13;
         private ZedGraph.ZedGraphControl zedGraphControl1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
 

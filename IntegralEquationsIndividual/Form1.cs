@@ -10,11 +10,15 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using ZedGraph;
 
 namespace IntegralEquationsIndividual
 {
     public partial class Form1 : Form
     {
+        Problem p;
+        Solver solver;
+
         private static string begin = @"using System;
 namespace MyNamespace
 {
@@ -49,7 +53,7 @@ namespace DFunction
             InitializeComponent();
         }
 
-        static void CreateF(string text, ref Delegate del)
+        static void CreateF(string text, out Delegate del)
         {
             CSharpCodeProvider provider = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters();
@@ -61,7 +65,7 @@ namespace DFunction
             var method = cls.GetMethod("Create", BindingFlags.Static | BindingFlags.Public);
             del = method.Invoke(null, null) as Delegate;
         }
-        static void CreateFFromTwoVariables(string text, ref Delegate del)
+        static void CreateFFromTwoVariables(string text, out Delegate del)
         {
             CSharpCodeProvider provider = new CSharpCodeProvider();
             CompilerParameters parameters = new CompilerParameters();
@@ -166,14 +170,84 @@ namespace DFunction
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CreateFFromTwoVariables(textBox7.Text, ref fZero);
-            double d1 = (double)fZero.DynamicInvoke(2, 0);
-            CreateF(textBox1.Text + "*Math.Cos(t)", ref y1);
-            CreateF(textBox2.Text + "*Math.Sin(t)", ref y2);
-            Vector<Delegate> y = new Vector<Delegate>(y1, y2);
-            Vector<double> x = new Vector<double>(1.9, 0);
+            InitializeProblem();
+            
+            solver = new Solver(p);
 
-            double I = IntegralU0(fZero, y, x);
-        }        
+            MessageBox.Show("Done!");
+
+            //CreateFFromTwoVariables(textBox7.Text, ref fZero);
+            //double d1 = (double)fZero.DynamicInvoke(2, 0);
+            //CreateF(textBox1.Text + "*Math.Cos(t)", ref y1);
+            //CreateF(textBox2.Text + "*Math.Sin(t)", ref y2);
+            //Vector<Delegate> y = new Vector<Delegate>(y1, y2);
+            //Vector<double> x = new Vector<double>(1.9, 0);
+
+            //double I = IntegralU0(fZero, y, x);
+        }     
+   
+        void InitializeProblem()
+        {
+            Delegate Gamma1a, Gamma1b;
+            Delegate Gamma2a, Gamma2b;
+            Delegate Gamma1DerivativeA, Gamma1DerivativeB;
+            Delegate Gamma2DerivativeA, Gamma2DerivativeB;
+            Delegate f0, f1, f2;
+
+            double R = double.Parse(textBox1.Text);
+
+            CreateF(textBox3.Text, out Gamma1a);
+            CreateF(textBox4.Text, out Gamma1b);
+            CreateF(textBox5.Text, out Gamma2a);
+            CreateF(textBox6.Text, out Gamma2b);
+            CreateF(textBox10.Text, out Gamma1DerivativeA);
+            CreateF(textBox11.Text, out Gamma1DerivativeB);
+            CreateF(textBox12.Text, out Gamma2DerivativeA);
+            CreateF(textBox13.Text, out Gamma2DerivativeB);
+            CreateF(textBox7.Text, out f0);
+            CreateF(textBox8.Text, out f1);
+            CreateF(textBox9.Text, out f2);
+
+            p = new Problem(R, new Vector<Delegate>(Gamma1a, Gamma1b), new Vector<Delegate>(Gamma2a, Gamma2b),
+                new Vector<Delegate>(Gamma1DerivativeA, Gamma1DerivativeB),
+                new Vector<Delegate>(Gamma2DerivativeA, Gamma2DerivativeB),
+                f0, f1, f2);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            solver.Solve();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Draw();
+        }
+
+        void Draw()
+        {
+            GraphPane pane = new GraphPane();
+            pane = zedGraphControl1.GraphPane;
+            pane.CurveList.Clear();
+            PointPairList list = new PointPairList();
+            PointPairList list1 = new PointPairList();
+            PointPairList list2 = new PointPairList();
+
+            for (double t = 0; t <= Math.PI*2; t += 0.05)
+            {
+                list.Add(solver.p.Gamma0(t).a, solver.p.Gamma0(t).b) ;
+                list1.Add((double)solver.p.Gamma1.a.DynamicInvoke(t), (double)solver.p.Gamma1.b.DynamicInvoke(t));
+                list2.Add((double)solver.p.Gamma2.a.DynamicInvoke(t), (double)solver.p.Gamma2.b.DynamicInvoke(t));
+            }
+            LineItem myCurve = pane.AddCurve("", list, Color.DarkRed, SymbolType.None);
+            myCurve = pane.AddCurve("", list1, Color.Blue, SymbolType.None);
+            myCurve = pane.AddCurve("", list2, Color.Green, SymbolType.None);
+
+            pane.Title.Text = "Graph";
+            pane.XAxis.Title.Text = "x";
+            pane.YAxis.Title.Text = "f(x)";
+            zedGraphControl1.AxisChange();
+            zedGraphControl1.Invalidate();
+        }
     }
 }
