@@ -170,6 +170,11 @@ namespace DFunction
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //GaussMethodSLAEsolver gauss=new GaussMethodSLAEsolver() ;
+            //double[,] mas = { { 1, 1, 1 }, { 1, 4, 3 }, { 3, 2, 1 } };
+            //double[] vec = { 3, 8, 6 };
+            //List<double> res = gauss.GaussSolve(mas, vec);
+            
             InitializeProblem();
             
             solver = new Solver(p);
@@ -204,9 +209,9 @@ namespace DFunction
             CreateF(textBox11.Text, out Gamma1DerivativeB);
             CreateF(textBox12.Text, out Gamma2DerivativeA);
             CreateF(textBox13.Text, out Gamma2DerivativeB);
-            CreateF(textBox7.Text, out f0);
-            CreateF(textBox8.Text, out f1);
-            CreateF(textBox9.Text, out f2);
+            CreateFFromTwoVariables(textBox7.Text, out f0);
+            CreateFFromTwoVariables(textBox8.Text, out f1);
+            CreateFFromTwoVariables(textBox9.Text, out f2);
 
             p = new Problem(R, new Vector<Delegate>(Gamma1a, Gamma1b), new Vector<Delegate>(Gamma2a, Gamma2b),
                 new Vector<Delegate>(Gamma1DerivativeA, Gamma1DerivativeB),

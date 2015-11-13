@@ -11,8 +11,10 @@ namespace IntegralEquationsIndividual
         public Vector<Delegate> Gamma2;
         public Vector<Delegate> Gamma1Derivative;
         public Vector<Delegate> Gamma2Derivative;
-        Delegate f0, f1, f2;
-        double R;
+        public Delegate f0, f1, f2;
+        public double R;
+
+        public List<Vector<double>> mesh;
 
         public Problem(double r, Vector<Delegate> v1,Vector<Delegate> v2,Vector<Delegate> v1der,Vector<Delegate> v2der,
             Delegate func0,Delegate func1,Delegate func2)
