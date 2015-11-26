@@ -60,9 +60,12 @@ namespace IntegralEquationsIndividual
             return GreenFunctionDer;
         }
 
-        public static double Aphi1(Problem p, Vector<double> x, double t,double tau, double n)
+        public static double Aphi1(Problem p, double t,double tau, double n)
         {
+            Vector<double> x = new Vector<double>();
             Vector<double> yVect = new Vector<double>();
+            x.a = (double)p.Gamma1.a.DynamicInvoke(t);
+            x.b = (double)p.Gamma1.b.DynamicInvoke(t);
             yVect.a = (double)p.Gamma1.a.DynamicInvoke(tau);
             yVect.b = (double)p.Gamma1.b.DynamicInvoke(tau);
 
@@ -73,9 +76,12 @@ namespace IntegralEquationsIndividual
             return Math.Log(p.R / rZero, Math.Exp(1)) - Math.Log(rAStarP, Math.Exp(1)) - H1(p, x, t, tau, n);
         }
 
-        public static double Bphi2(Problem p, Vector<double> x, double t, double tau)
+        public static double Bphi2(Problem p, double t, double tau)
         {
+            Vector<double> x = new Vector<double>();
             Vector<double> yVect = new Vector<double>();
+            x.a = (double)p.Gamma1.a.DynamicInvoke(t);
+            x.b = (double)p.Gamma1.b.DynamicInvoke(t);
             yVect.a = (double)p.Gamma2.a.DynamicInvoke(tau);
             yVect.b = (double)p.Gamma2.b.DynamicInvoke(tau);
             double rZero;
@@ -95,12 +101,15 @@ namespace IntegralEquationsIndividual
             return Math.Log(p.R, Math.Exp(1)) - Math.Log(rZero, Math.Exp(1)) - Math.Log(rAStarP, Math.Exp(1)) + Math.Log(rAP, Math.Exp(1));
         }
 
-        public static double Cphi1(Problem p, Vector<double> x, double t, double tau)
+        public static double Cphi1(Problem p, double t, double tau)
         {
             Vector<double> yVectDeriv = new Vector<double>();
             Vector<double> yVect = new Vector<double>();
+            Vector<double> x = new Vector<double>();
             yVect.a = (double)p.Gamma1.a.DynamicInvoke(tau);
             yVect.b = (double)p.Gamma1.b.DynamicInvoke(tau);
+            x.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            x.b = (double)p.Gamma2.b.DynamicInvoke(t);
             yVectDeriv.a = (double)p.Gamma1Derivative.a.DynamicInvoke(tau);
             yVectDeriv.b = (double)p.Gamma1Derivative.b.DynamicInvoke(tau);
 
@@ -127,12 +136,15 @@ namespace IntegralEquationsIndividual
             return (1/(2*Math.PI)) * (a * mju.a + b * mju.b);
         }
 
-        public static double Dphi2(Problem p, Vector<double> x, double t, double tau)
+        public static double Dphi2(Problem p, double t, double tau)
         {
             Vector<double> xDeriv = new Vector<double>();
             Vector<double> yVect = new Vector<double>();
+            Vector<double> x = new Vector<double>();
             yVect.a = (double)p.Gamma2.a.DynamicInvoke(tau);
             yVect.b = (double)p.Gamma2.b.DynamicInvoke(tau);
+            x.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            x.b = (double)p.Gamma2.b.DynamicInvoke(t);
             xDeriv.a = (double)p.Gamma2Derivative.a.DynamicInvoke(t);
             xDeriv.b = (double)p.Gamma2Derivative.b.DynamicInvoke(t);
 
@@ -185,6 +197,7 @@ namespace IntegralEquationsIndividual
             Vector<double> yVect = new Vector<double>();
             yVect.a = (double)p.Gamma1.a.DynamicInvoke(tau);
             yVect.b = (double)p.Gamma1.b.DynamicInvoke(tau);
+            Vector<double> xVectDer =new Vector<double>((double)p.Gamma1Derivative.a.DynamicInvoke(t), (double)p.Gamma1Derivative.b.DynamicInvoke(t));
             if (t != tau)
             {
                 double rAP = Math.Sqrt(Math.Pow(x.a - yVect.a, 2) + Math.Pow(x.b - yVect.b, 2));
@@ -194,7 +207,7 @@ namespace IntegralEquationsIndividual
             {
                 //double norm = EuclidNorm((double)p.Gamma1Derivative.a.DynamicInvoke(tau), (double)p.Gamma1Derivative.b.DynamicInvoke(tau));
                 //return (-1 / 2d) * Math.Log((4 / Math.Exp(1)) * Math.Pow(Math.Sin((t - tau) / 2), 2), Math.Exp(1)) - 1 / 2 * Math.Log(2 * Math.Pow(norm, 2)) - 1 / 2d;
-                return -1 / 2d * Math.Pow((R(t, tau, n) - 1 / (2 * n) * Math.Log(1, Math.Exp(1))), 2);
+                return -1 / 2d * Math.Pow((R(t, tau, n) - 1 / (2 * n) * Math.Log(Math.Pow(xVectDer.a, 2) + Math.Pow(xVectDer.a, 2), Math.Exp(1))), 2);
             }
         }
 
