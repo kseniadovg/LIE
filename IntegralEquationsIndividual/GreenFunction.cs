@@ -192,14 +192,22 @@ namespace IntegralEquationsIndividual
             }
             else
             {
-                double norm = EuclidNorm((double)p.Gamma1Derivative.a.DynamicInvoke(tau), (double)p.Gamma1Derivative.b.DynamicInvoke(tau));
-                return (-1 / 2d) * Math.Log((4 / Math.Exp(1)) * Math.Pow(Math.Sin((t - tau) / 2), 2), Math.Exp(1)) - 1 / 2 * Math.Log(2 * Math.Pow(norm, 2)) - 1 / 2d;
+                //double norm = EuclidNorm((double)p.Gamma1Derivative.a.DynamicInvoke(tau), (double)p.Gamma1Derivative.b.DynamicInvoke(tau));
+                //return (-1 / 2d) * Math.Log((4 / Math.Exp(1)) * Math.Pow(Math.Sin((t - tau) / 2), 2), Math.Exp(1)) - 1 / 2 * Math.Log(2 * Math.Pow(norm, 2)) - 1 / 2d;
+                return -1 / 2d * Math.Pow((R(t, tau, n) - 1 / (2 * n) * Math.Log(1, Math.Exp(1))), 2);
             }
         }
 
-        public static double R(double t,double n)
+        public static double R(double t, double tau, double n)
         {
-            return 0;
+            double R = 0;
+            for (int i = 0; i < n; i++)
+            {
+                R += 1 / i * Math.Cos(i * (t - tau));
+            }
+            R *= 1 / n;
+            R = -1 / (2 * n * n) * Math.Cos(n * (t - tau));
+            return R;
         }
 
         public static double EuclidNorm(double x, double y)
