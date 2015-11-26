@@ -15,3 +15,5 @@ C:\Users\Oksana\Documents\GitHub\LIE\IntegralEquationsIndividual\obj\Debug\Integ
 C:\Users\Oksana\Documents\GitHub\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.Form1.resources
 C:\Users\Oksana\Documents\GitHub\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.Properties.Resources.resources
 C:\Users\Oksana\Documents\GitHub\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.csproj.GenerateResource.Cache
+C:\Users\Yaroslav\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.exe
+C:\Users\Yaroslav\Documents\GitHubVisualStudio\LIE\IntegralEquationsIndividual\obj\Debug\IntegralEquationsIndividual.pdb
