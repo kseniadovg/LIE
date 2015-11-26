@@ -48,5 +48,39 @@ namespace IntegralEquationsIndividual
             return null;
         }
 
+        public static double[,] Matrix(int n, Problem p)
+        {
+            double[,] Matrix = new double[2 * n, 2 * n];
+
+            double param = Math.PI / n;
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Matrix[i, j] = GreenFunction.Aphi1(p, i * param, j * param, n);
+                }
+                for (int j = n; j < 2 * n - 1; j++)
+                {
+                    Matrix[i, j] = GreenFunction.Bphi2(p, i * param, j * param);
+                }
+            }
+
+            for (int i = n; i < 2 * n - 1; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Matrix[i, j] = GreenFunction.Cphi1(p, i * param, j * param);
+                }
+                for (int j = n; j < 2 * n - 1; j++)
+                {
+                    Matrix[i, j] = GreenFunction.Dphi2(p, i * param, j * param);
+                }
+            }
+
+
+            return Matrix;
+        }
+
     }
 }
