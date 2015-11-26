@@ -52,7 +52,7 @@ namespace IntegralEquationsIndividual
         {
             double[,] Matrix = new double[2 * n, 2 * n];
 
-            double param = Math.PI / n;
+            double param = 2 * Math.PI / n;
 
             for (int i = 0; i < n; i++)
             {
