@@ -84,13 +84,13 @@ namespace IntegralEquationsIndividual
             return Matrix;
         }
 
-        public static double[] Vector(int n, Problem p)
+        public static double[] Vector(int n, Problem p, Vector<double> x)
         {
             double[] vector = new double[2 * n];
 
             for (int j = 0; j < n; j++)
             {
-                vector[j] = 0;
+                vector[j] = IntegralsEvaluator.IntegralU0(p, x);
             }
             for (int j = n; j < 2 * n - 1; j++)
             {
