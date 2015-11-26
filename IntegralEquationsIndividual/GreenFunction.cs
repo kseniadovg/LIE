@@ -60,7 +60,7 @@ namespace IntegralEquationsIndividual
             return GreenFunctionDer;
         }
 
-        private double Aphi1(Problem p, Vector<double> x, double t,double tau)
+        public static double Aphi1(Problem p, Vector<double> x, double t,double tau, double n)
         {
             Vector<double> yVect = new Vector<double>();
             yVect.a = (double)p.Gamma1.a.DynamicInvoke(tau);
@@ -69,11 +69,11 @@ namespace IntegralEquationsIndividual
             double rZero = Math.Sqrt((Math.Pow(yVect.a, 2) + Math.Pow(yVect.b, 2)));
             double rAStarP = Math.Sqrt(Math.Pow(x.a - (Math.Pow(p.R / rZero, 2)) * yVect.a, 2)
                              + Math.Pow(x.b - (Math.Pow(p.R / rZero, 2)) * yVect.b, 2));
-            
-            return Math.Log(p.R/rZero,Math.Exp(1)) - Math.Log(rAStarP, Math.Exp(1)) - H1(p,x,t,tau);
+
+            return Math.Log(p.R / rZero, Math.Exp(1)) - Math.Log(rAStarP, Math.Exp(1)) - H1(p, x, t, tau, n);
         }
 
-        private double Bphi2(Problem p, Vector<double> x, double t, double tau)
+        public static double Bphi2(Problem p, Vector<double> x, double t, double tau)
         {
             Vector<double> yVect = new Vector<double>();
             yVect.a = (double)p.Gamma2.a.DynamicInvoke(tau);
@@ -95,7 +95,7 @@ namespace IntegralEquationsIndividual
             return Math.Log(p.R, Math.Exp(1)) - Math.Log(rZero, Math.Exp(1)) - Math.Log(rAStarP, Math.Exp(1)) + Math.Log(rAP, Math.Exp(1));
         }
 
-        private double Cphi1(Problem p, Vector<double> x, double t, double tau)
+        public static double Cphi1(Problem p, Vector<double> x, double t, double tau)
         {
             Vector<double> yVectDeriv = new Vector<double>();
             Vector<double> yVect = new Vector<double>();
@@ -127,7 +127,7 @@ namespace IntegralEquationsIndividual
             return (1/(2*Math.PI)) * (a * mju.a + b * mju.b);
         }
 
-        private double Dphi2(Problem p, Vector<double> x, double t, double tau)
+        public static double Dphi2(Problem p, Vector<double> x, double t, double tau)
         {
             Vector<double> xDeriv = new Vector<double>();
             Vector<double> yVect = new Vector<double>();
@@ -180,7 +180,7 @@ namespace IntegralEquationsIndividual
             }
         }
 
-        private double H1(Problem p, Vector<double> x, double t, double tau)
+        public static double H1(Problem p, Vector<double> x, double t, double tau, double n)
         {
             Vector<double> yVect = new Vector<double>();
             yVect.a = (double)p.Gamma1.a.DynamicInvoke(tau);
@@ -197,7 +197,12 @@ namespace IntegralEquationsIndividual
             }
         }
 
-        private double EuclidNorm(double x, double y)
+        public static double R(double t,double n)
+        {
+            return 0;
+        }
+
+        public static double EuclidNorm(double x, double y)
         {
             return Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
         }
