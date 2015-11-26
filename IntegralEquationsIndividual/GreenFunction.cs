@@ -59,6 +59,38 @@ namespace IntegralEquationsIndividual
 
             return GreenFunctionDer;
         }
+        public static double SecondNormalDerivativeXforU2(Problem p, double t, double tau)
+        {
+            Vector<double> yVect = new Vector<double>();
+            Vector<double> x = new Vector<double>();
+            yVect.a = (double)p.Gamma2.a.DynamicInvoke(tau);
+            yVect.b = (double)p.Gamma2.b.DynamicInvoke(tau);
+            x.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            x.b = (double)p.Gamma2.b.DynamicInvoke(t);
+
+            double a;
+            double b;
+
+            double rZero = Math.Sqrt((Math.Pow(yVect.a, 2) + Math.Pow(yVect.b, 2)));
+            double rAP = Math.Sqrt(Math.Pow(x.a - yVect.a, 2) + Math.Pow(x.b - yVect.b, 2));
+            double rAStarP = Math.Sqrt(Math.Pow(x.a - (Math.Pow(p.R / rZero, 2)) * yVect.a, 2)
+                             + Math.Pow(x.b - (Math.Pow(p.R / rZero, 2)) * yVect.b, 2));
+
+            double rZero2 = rZero * rZero;
+            double rAP2 = rAP * rAP;
+            double rAStarP2 = rAStarP * rAStarP;
+
+
+            a = -(x.a - (Math.Pow(p.R / rZero, 2)) * yVect.a) / rAStarP2
+                - (x.a - yVect.a) / rAP2;
+            b = -(x.b - (Math.Pow(p.R / rZero, 2)) * yVect.b) / rAStarP2
+                - (x.b - yVect.b) / rAP2;
+
+
+            Vector<double> mju = p.NormalDerivative(x);
+            return (1 / (2 * Math.PI)) * (a * mju.a + b * mju.b);
+        }
+
 
         public static double Aphi1(Problem p, double t,double tau, double n)
         {
@@ -103,15 +135,12 @@ namespace IntegralEquationsIndividual
 
         public static double Cphi1(Problem p, double t, double tau)
         {
-            Vector<double> yVectDeriv = new Vector<double>();
             Vector<double> yVect = new Vector<double>();
             Vector<double> x = new Vector<double>();
             yVect.a = (double)p.Gamma1.a.DynamicInvoke(tau);
             yVect.b = (double)p.Gamma1.b.DynamicInvoke(tau);
             x.a = (double)p.Gamma2.a.DynamicInvoke(t);
             x.b = (double)p.Gamma2.b.DynamicInvoke(t);
-            yVectDeriv.a = (double)p.Gamma1Derivative.a.DynamicInvoke(tau);
-            yVectDeriv.b = (double)p.Gamma1Derivative.b.DynamicInvoke(tau);
 
             double a;
             double b;
@@ -131,7 +160,7 @@ namespace IntegralEquationsIndividual
             b = -(x.b - (Math.Pow(p.R / rZero, 2)) * yVect.b) / rAStarP2
                 - (x.b - yVect.b) / rAP2;
 
-
+                
             Vector<double> mju = p.NormalDerivative(x);
             return (1/(2*Math.PI)) * (a * mju.a + b * mju.b);
         }

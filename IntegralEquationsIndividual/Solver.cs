@@ -75,11 +75,29 @@ namespace IntegralEquationsIndividual
                 for (int j = n; j < 2 * n - 1; j++)
                 {
                     Matrix[i, j] = GreenFunction.Dphi2(p, i * param, j * param);
+                    if (i == j)
+                        Matrix[i, j] += 1 / 2d;
                 }
             }
 
 
             return Matrix;
+        }
+
+        public static double[] Vector(int n, Problem p)
+        {
+            double[] vector = new double[2 * n];
+
+            for (int j = 0; j < n; j++)
+            {
+                vector[j] = 0;
+            }
+            for (int j = n; j < 2 * n - 1; j++)
+            {
+                vector[j] = 0;
+            }
+
+            return vector;
         }
 
     }
