@@ -19,6 +19,7 @@ namespace IntegralEquationsIndividual
         Problem p;
         Solver solver;
 
+        #region FunctionTemplates
         private static string begin = @"using System;
 namespace MyNamespace
 {
@@ -42,11 +43,7 @@ namespace DFunction
         public static Del CreateF()
         {
             return (y1,y2)=>";
-
-        Delegate f;
-        Delegate fZero;
-        Delegate y1;
-        Delegate y2;
+        #endregion
 
         public Form1()
         {
@@ -78,117 +75,13 @@ namespace DFunction
             del = method.Invoke(null, null) as Delegate;
         }
 
-        //can't be evaluated on Г0
-        private double GreenFunctionNormalDerivativeY(Vector<Delegate> y, Vector<Delegate> yDeriv, Vector<double> x, double t)
-        {
-            double GreenFunctionDer;
-            double a;
-            double b;
-            Vector<double> yVect = new Vector<double>();
-            yVect.a = (double)y.a.DynamicInvoke(t);
-            yVect.b = (double)y.b.DynamicInvoke(t);
-
-            //Green Function Variables
-            double R = double.Parse(textBox1.Text);
-            double rZero = Math.Sqrt((Math.Pow(yVect.a, 2) + Math.Pow(yVect.b, 2)));
-            double rAP = Math.Sqrt(Math.Pow(x.a - yVect.a, 2) + Math.Pow(x.b - yVect.b, 2));
-            double rAStarP = Math.Sqrt(Math.Pow(x.a - (Math.Pow(R / rZero, 2)) * yVect.a, 2)
-                             + Math.Pow(x.b - (Math.Pow(R / rZero, 2)) * yVect.b, 2));
-
-            double rZero2 = rZero * rZero;
-            double rAP2 = rAP * rAP;
-            double rAStarP2 = rAStarP * rAStarP;
-
-            //Constructing elements of the vector
-            if (Math.Abs(rAP) > 1e-10)
-            {
-                a = -(yVect.a / rZero2)
-                    + ((Math.Pow(R / rZero, 2)) * (x.a - (Math.Pow(R / rZero, 2)) * yVect.a)) / rAStarP2
-                    - (x.a - yVect.a) / rAP2;
-                b = -(yVect.b / rZero2)
-                    + ((Math.Pow(R / rZero, 2)) * (x.b - (Math.Pow(R / rZero, 2)) * yVect.b)) / rAStarP2
-                    - (x.b - yVect.b) / rAP2;
-            }
-            else
-            {
-                double yDerivA = (double)yDeriv.a.DynamicInvoke(yVect.a);
-                double yDerivB = (double)yDeriv.a.DynamicInvoke(yVect.b);
-
-                double yDeriv2A = ((double)yDeriv.a.DynamicInvoke(yVect.a + 0.001) - (double)yDeriv.a.DynamicInvoke(yVect.a - 0.001))*2000;
-                double yDeriv2B = ((double)yDeriv.b.DynamicInvoke(yVect.b + 0.001) - (double)yDeriv.b.DynamicInvoke(yVect.b - 0.001)) * 2000;
-                double yDerivNorm2 = yDerivA * yDerivA + yDerivB * yDerivB;
-
-                a = -(yVect.a / rZero2)
-                    + ((Math.Pow(R / rZero, 2)) * (x.a - (Math.Pow(R / rZero, 2)) * yVect.a)) / rAStarP2
-                    - (0.5 * yDeriv2A) / yDerivNorm2;
-                b = -(yVect.b / rZero2)
-                    + ((Math.Pow(R / rZero, 2)) * (x.b - (Math.Pow(R / rZero, 2)) * yVect.b)) / rAStarP2
-                    - (0.5 * yDeriv2B) / yDerivNorm2;
-            }
-
-            //Count Mju function
-            Vector<double> mju = Mju(t);
-
-            //Count Green function
-            GreenFunctionDer = (1 / (2 * Math.PI)) * (a * mju.a + b * mju.b);
-
-            return GreenFunctionDer;
-        }
-
-        private double IntegralU0(Delegate fZero, Vector<Delegate> y, Vector<double> x)
-        {
-            double sum = 0;
-            int count = 1;
-            
-            double a = 0.5 * ((double)fZero.DynamicInvoke((double)y.a.DynamicInvoke(0), (double)y.b.DynamicInvoke(0)))
-                * GreenFunctionNormalDerivativeY(y,null, x, 0);
-
-            for (double i = 0.05; i < 2 * Math.PI; i += 0.05)
-            {
-                sum += (double)fZero.DynamicInvoke((double)y.a.DynamicInvoke(i), (double)y.b.DynamicInvoke(i))
-                    * GreenFunctionNormalDerivativeY(y,null, x, i);
-                count++;
-            }
-
-            double b = 0.5 * (double)fZero.DynamicInvoke((double)y.a.DynamicInvoke(2 * Math.PI), (double)y.b.DynamicInvoke(2 * Math.PI))
-                * GreenFunctionNormalDerivativeY(y,null, x, 2 * Math.PI);
-
-            //2*pi*R/count
-            return -(a + sum + b) * ((4 * Math.PI) / (double)count);
-        }
-
-        //mju is dependent on Гi, not only Г0
-        private Vector<double> Mju(double t)
-        {
-            double KsiPrime = 2 * Math.Cos(t);
-            double PhiPrime = -2 * Math.Sin(t);
-            double a = KsiPrime / Math.Sqrt(Math.Pow(KsiPrime, 2) + Math.Pow(PhiPrime, 2));
-            double b = - PhiPrime / Math.Sqrt(Math.Pow(KsiPrime, 2) + Math.Pow(PhiPrime, 2));
-            Vector<double> Mju = new Vector<double>(a, b);
-            return Mju;
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            //GaussMethodSLAEsolver gauss=new GaussMethodSLAEsolver() ;
-            //double[,] mas = { { 1, 1, 1 }, { 1, 4, 3 }, { 3, 2, 1 } };
-            //double[] vec = { 3, 8, 6 };
-            //List<double> res = gauss.GaussSolve(mas, vec);
-            
             InitializeProblem();
-            
-            solver = new Solver(p);
+
+            solver = new Solver(p, double.Parse(textBox14.Text));
 
             MessageBox.Show("Done!");
-
-            //CreateFFromTwoVariables(textBox7.Text, ref fZero);
-            //double d1 = (double)fZero.DynamicInvoke(2, 0);
-            //CreateF(textBox1.Text + "*Math.Cos(t)", ref y1);
-            //CreateF(textBox2.Text + "*Math.Sin(t)", ref y2);
-            //Vector<Delegate> y = new Vector<Delegate>(y1, y2);
-            //Vector<double> x = new Vector<double>(1.9, 0);
-
-            //double I = IntegralU0(fZero, y, x);
         }     
    
         void InitializeProblem()
@@ -226,6 +119,8 @@ namespace DFunction
 
         private void button2_Click(object sender, EventArgs e)
         {
+            solver.step = double.Parse(textBox14.Text);
+            solver.GenerateMesh();
             Draw();
         }
 
@@ -237,20 +132,33 @@ namespace DFunction
             PointPairList list = new PointPairList();
             PointPairList list1 = new PointPairList();
             PointPairList list2 = new PointPairList();
+            PointPairList list3 = new PointPairList();
 
-            for (double t = 0; t <= Math.PI*2; t += 0.05)
+            for (double t = 0; t <= Math.PI * 2; t += 0.05)
             {
-                list.Add(solver.p.Gamma0(t).a, solver.p.Gamma0(t).b) ;
+                list.Add(solver.p.Gamma0(t).a, solver.p.Gamma0(t).b);
                 list1.Add((double)solver.p.Gamma1.a.DynamicInvoke(t), (double)solver.p.Gamma1.b.DynamicInvoke(t));
                 list2.Add((double)solver.p.Gamma2.a.DynamicInvoke(t), (double)solver.p.Gamma2.b.DynamicInvoke(t));
             }
+
+            foreach (var v in solver.p.mesh)
+            {
+                list3.Add(v.a, v.b);
+            }
+
             LineItem myCurve = pane.AddCurve("", list, Color.DarkRed, SymbolType.None);
             myCurve = pane.AddCurve("", list1, Color.Blue, SymbolType.None);
             myCurve = pane.AddCurve("", list2, Color.Green, SymbolType.None);
 
+            LineItem myCurve1 = pane.AddCurve("", list3, Color.Black, SymbolType.Star);
+            myCurve1.Line.IsVisible = false;
+            myCurve1.Symbol.Fill.Color = Color.Black;
+            myCurve1.Symbol.Fill.Type = FillType.Solid;
+            myCurve1.Symbol.Size = 7;
+
             pane.Title.Text = "Graph";
             pane.XAxis.Title.Text = "x";
-            pane.YAxis.Title.Text = "f(x)";
+            pane.YAxis.Title.Text = "y";
             zedGraphControl1.AxisChange();
             zedGraphControl1.Invalidate();
         }
