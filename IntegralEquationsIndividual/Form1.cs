@@ -79,7 +79,8 @@ namespace DFunction
         {
             InitializeProblem();
 
-            solver = new Solver(p, double.Parse(textBox14.Text));
+            //solver = new Solver(p, double.Parse(textBox14.Text));
+            solver = new Solver(p, double.Parse(textBox14.Text), 100);
 
             MessageBox.Show("Done!");
         }     

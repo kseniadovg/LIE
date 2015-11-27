@@ -292,7 +292,7 @@ namespace IntegralEquationsIndividual
         public static double R(double t, double tau, double n)
         {
             double R = 0;
-            for (int i = 0; i < n; i++)
+            for (int i = 1; i < n; i++)
             {
                 R += 1 / i * Math.Cos(i * (t - tau));
             }

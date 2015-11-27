@@ -19,6 +19,7 @@ namespace IntegralEquationsIndividual
             meshStep = mstep;
             integralStep = istep;
             GenerateMesh();
+            res = new Result();
         }
 
         public void Solve()
@@ -35,8 +36,8 @@ namespace IntegralEquationsIndividual
             {
                 p.u.Add(
                     IntegralsEvaluator.IntegralU0(p, v) +
-                    IntegralsEvaluator.IntegralMju1GreenOnGamma1(p, v) +
-                    IntegralsEvaluator.IntegralMju2GreenOnGamma2(p, v));
+                    IntegralsEvaluator.IntegralMju1GreenOnGamma1(this, v) +
+                    IntegralsEvaluator.IntegralMju2GreenOnGamma2(this, v));
             }
 
             double param = 2 * Math.PI / pointsOnCurve;
