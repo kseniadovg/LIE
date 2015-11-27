@@ -51,13 +51,31 @@ namespace IntegralEquationsIndividual
             return -(a + sum + b) * ((2 * Math.PI * p.R) / (double)count);
         }
 
-        public static double IntegralMju1GreenOnGamma1(Problem p, Vector<double> x)
+        public static double IntegralMju1GreenOnGamma1(Solver s, Vector<double> x)
         {
-            return 0;
+            double sum = 0;
+            double param = 2 * Math.PI / s.res.mju1.Count;
+            double a = GreenFunction.GreenGamma1(s.p, x, 0) * s.res.mju1[0];
+            for (int i = 1; i < s.res.mju1.Count - 1; i++)
+            {
+                sum += GreenFunction.GreenGamma1(s.p, x, i * param) * s.res.mju1[i];
+            }
+
+            double b = GreenFunction.GreenGamma1(s.p, x, 2 * Math.PI) * s.res.mju1[s.res.mju1.Count - 1];
+            return a + sum + b;
         }
-        public static double IntegralMju2GreenOnGamma2(Problem p, Vector<double> x)
+        public static double IntegralMju2GreenOnGamma2(Solver s, Vector<double> x)
         {
-            return 0;
+            double sum = 0;
+            double param = 2 * Math.PI / s.res.mju2.Count;
+            double a = GreenFunction.GreenGamma2(s.p, x, 0) * s.res.mju2[0];
+            for (int i = 1; i < s.res.mju2.Count - 1; i++)
+            {
+                sum += GreenFunction.GreenGamma2(s.p, x, i * param) * s.res.mju2[i];
+            }
+
+            double b = GreenFunction.GreenGamma2(s.p, x, 2 * Math.PI) * s.res.mju2[s.res.mju2.Count - 1];
+            return a + sum + b;
         }
     }
 }

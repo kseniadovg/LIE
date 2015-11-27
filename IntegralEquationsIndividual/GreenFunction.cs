@@ -62,12 +62,83 @@ namespace IntegralEquationsIndividual
 
         public static double NormalDerivative_X_Y_forU0(Problem p, Vector<double> x , double t)
         {
-            return 0;
+            return ND_X_Y_Part1(p, x, t) * ND_X_Y_Part2(p, x, t);
         }
+        public static double ND_X_Y_Part1(Problem p, Vector<double> x, double t)
+        {
+            Vector<double> y = p.Gamma0(t);
+            //yVect.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            //yVect.b = (double)p.Gamma2.b.DynamicInvoke(t);
+            double rZero = Math.Sqrt((Math.Pow(y.a, 2) + Math.Pow(y.b, 2)));
+            double rAP = Math.Sqrt(Math.Pow(x.a - y.a, 2) + Math.Pow(x.b - y.b, 2));
+            Vector<double> mjux = p.NormalDerivative(x);
+            Vector<double> mjuy = p.NormalDerivative(y);
 
+            double rZero2 = rZero * rZero;
+            double rAP2 = rAP * rAP;
+
+            double a = (mjux.a * mjuy.a + mjux.b * mjuy.b) / rAP2;
+            double b = 2 * (((x.a - y.a) * mjuy.a + (x.b - y.b) * mjuy.b) / rAP2) * (((x.a - y.a) * mjux.a + (x.b - y.b) * mjux.b) / rAP2);
+            return 1 / (2 * Math.PI) * (a - b);
+        }
+        public static double ND_X_Y_Part2(Problem p, Vector<double> x, double t)
+        {
+            Vector<double> y = p.Gamma0(t);
+            //yVect.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            //yVect.b = (double)p.Gamma2.b.DynamicInvoke(t);
+            double rZero = Math.Sqrt((Math.Pow(y.a, 2) + Math.Pow(y.b, 2)));
+            double rAStarP = Math.Sqrt(Math.Pow(x.a - (Math.Pow(p.R / rZero, 2)) * y.a, 2)
+                             + Math.Pow(x.b - (Math.Pow(p.R / rZero, 2)) * y.b, 2));
+            Vector<double> mjux = p.NormalDerivative(x);
+            Vector<double> mjuy = p.NormalDerivative(y);
+            double rZero2 = rZero * rZero;
+            double rAStarP2 = rAStarP * rAStarP;
+
+            Vector<double> a = new Vector<double>(p.R * p.R / rAStarP2 * mjuy.a, p.R * p.R / rAStarP2 * mjuy.b);
+            double b = 2 * (p.R * p.R / rZero2 * ((x.a - y.a * (p.R * p.R / rZero2)) * mjuy.a + (x.b - y.b * (p.R * p.R / rZero2)) * mjuy.b)) / (rAStarP2 * rAStarP2);
+
+            return 1 / (2 * Math.PI) * (((a.a - b) * mjux.a) + ((a.b - b) * mjux.b));
+        }
         public static double Green(Problem p, Vector<double> x , double t)
         {
-            return 0;
+            Vector<double> yVect = p.Gamma0(t);
+            //yVect.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            //yVect.b = (double)p.Gamma2.b.DynamicInvoke(t);
+            double rZero = Math.Sqrt((Math.Pow(yVect.a, 2) + Math.Pow(yVect.b, 2)));
+            double rAP = Math.Sqrt(Math.Pow(x.a - yVect.a, 2) + Math.Pow(x.b - yVect.b, 2));
+            double rAStarP = Math.Sqrt(Math.Pow(x.a - (Math.Pow(p.R / rZero, 2)) * yVect.a, 2)
+                             + Math.Pow(x.b - (Math.Pow(p.R / rZero, 2)) * yVect.b, 2));
+
+            return Math.Log(p.R / rZero, Math.Exp(1)) - Math.Log(rAStarP, Math.Exp(1)) - Math.Log(1 / rAP, Math.Exp(1));
+        }
+        public static double GreenGamma1(Problem p, Vector<double> x, double t)
+        {
+            Vector<double> yVect = new Vector<double>();
+            yVect.a = (double)p.Gamma1.a.DynamicInvoke(t);
+            yVect.b = (double)p.Gamma1.b.DynamicInvoke(t);
+            //yVect.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            //yVect.b = (double)p.Gamma2.b.DynamicInvoke(t);
+            double rZero = Math.Sqrt((Math.Pow(yVect.a, 2) + Math.Pow(yVect.b, 2)));
+            double rAP = Math.Sqrt(Math.Pow(x.a - yVect.a, 2) + Math.Pow(x.b - yVect.b, 2));
+            double rAStarP = Math.Sqrt(Math.Pow(x.a - (Math.Pow(p.R / rZero, 2)) * yVect.a, 2)
+                             + Math.Pow(x.b - (Math.Pow(p.R / rZero, 2)) * yVect.b, 2));
+
+            return Math.Log(p.R / rZero, Math.Exp(1)) - Math.Log(rAStarP, Math.Exp(1)) - Math.Log(1 / rAP, Math.Exp(1));
+        }
+
+        public static double GreenGamma2(Problem p, Vector<double> x, double t)
+        {
+            Vector<double> yVect = new Vector<double>();
+            yVect.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            yVect.b = (double)p.Gamma2.b.DynamicInvoke(t);
+            //yVect.a = (double)p.Gamma2.a.DynamicInvoke(t);
+            //yVect.b = (double)p.Gamma2.b.DynamicInvoke(t);
+            double rZero = Math.Sqrt((Math.Pow(yVect.a, 2) + Math.Pow(yVect.b, 2)));
+            double rAP = Math.Sqrt(Math.Pow(x.a - yVect.a, 2) + Math.Pow(x.b - yVect.b, 2));
+            double rAStarP = Math.Sqrt(Math.Pow(x.a - (Math.Pow(p.R / rZero, 2)) * yVect.a, 2)
+                             + Math.Pow(x.b - (Math.Pow(p.R / rZero, 2)) * yVect.b, 2));
+
+            return Math.Log(p.R / rZero, Math.Exp(1)) - Math.Log(rAStarP, Math.Exp(1)) - Math.Log(1 / rAP, Math.Exp(1));
         }
 
         public static double Aphi1(Problem p, double t,double tau, double n)

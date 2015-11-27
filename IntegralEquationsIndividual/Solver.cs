@@ -11,7 +11,7 @@ namespace IntegralEquationsIndividual
         public double meshStep;
         public int integralStep;
         int pointsOnCurve = 10;
-        Result res;
+        public Result res;
 
         public Solver(Problem pr, double mstep, int istep)
         {
