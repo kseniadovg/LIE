@@ -8,7 +8,7 @@ namespace IntegralEquationsIndividual
     class GreenFunction
     {
         //can't be evaluated on Г0
-        public static double NormalDerivativeYforU0(Problem p, Vector<double> x , double t)
+        public static double NormalDerivative_Y_forU0(Problem p, Vector<double> x , double t)
         {
             double GreenFunctionDer;
             double a;
@@ -58,6 +58,16 @@ namespace IntegralEquationsIndividual
             GreenFunctionDer = (1 / (2 * Math.PI)) * (a * mju.a + b * mju.b);
 
             return GreenFunctionDer;
+        }
+
+        public static double NormalDerivative_X_Y_forU0(Problem p, Vector<double> x , double t)
+        {
+            return 0;
+        }
+
+        public static double Green(Problem p, Vector<double> x , double t)
+        {
+            return 0;
         }
 
         public static double Aphi1(Problem p, double t,double tau, double n)

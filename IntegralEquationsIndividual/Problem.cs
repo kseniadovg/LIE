@@ -15,6 +15,7 @@ namespace IntegralEquationsIndividual
         public double R;
 
         public List<Vector<double>> mesh;
+        public List<double> u;
 
         public Problem(double r, Vector<Delegate> v1,Vector<Delegate> v2,Vector<Delegate> v1der,Vector<Delegate> v2der,
             Delegate func0,Delegate func1,Delegate func2)

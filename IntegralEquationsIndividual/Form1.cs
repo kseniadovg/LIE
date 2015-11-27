@@ -119,7 +119,7 @@ namespace DFunction
 
         private void button2_Click(object sender, EventArgs e)
         {
-            solver.step = double.Parse(textBox14.Text);
+            solver.meshStep = double.Parse(textBox14.Text);
             solver.GenerateMesh();
             Draw();
         }

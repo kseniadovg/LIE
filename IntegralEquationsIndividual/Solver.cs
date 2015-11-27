@@ -8,28 +8,65 @@ namespace IntegralEquationsIndividual
     class Solver
     {
         public Problem p;
-        public double step;
+        public double meshStep;
+        public int integralStep;
+        int pointsOnCurve = 10;
         Result res;
 
-        public Solver(Problem pr, double step)
+        public Solver(Problem pr, double mstep, int istep)
         {
             p = pr;
-            this.step = step;
+            meshStep = mstep;
+            integralStep = istep;
             GenerateMesh();
         }
 
         public void Solve()
         {
-            double u0 = IntegralsEvaluator.IntegralU0(p, new Vector<double>(1, 0));
+            //double u0 = IntegralsEvaluator.IntegralU0(p, new Vector<double>(1, 0));            
+
+            GaussMethodSLAEsolver gauss=new GaussMethodSLAEsolver();
+            List<double> mju = gauss.GaussSolve(Matrix(integralStep, p), Vector(integralStep, p));
+            res.mju1 = mju.GetRange(0, integralStep);
+            res.mju2 = mju.GetRange(integralStep, integralStep);
+
+            p.u = new List<double>();
+            foreach(var v in p.mesh)
+            {
+                p.u.Add(
+                    IntegralsEvaluator.IntegralU0(p, v) +
+                    IntegralsEvaluator.IntegralMju1GreenOnGamma1(p, v) +
+                    IntegralsEvaluator.IntegralMju2GreenOnGamma2(p, v));
+            }
+
+            double param = 2 * Math.PI / pointsOnCurve;
+            Vector<double> gamma0, gamma1;
+            for(int i=0;i<pointsOnCurve;i++)
+            {
+                gamma0 = p.Gamma0(i * param);
+                gamma1 = new Vector<double>(
+                    (double)p.Gamma1.a.DynamicInvoke(i * param),
+                    (double)p.Gamma1.b.DynamicInvoke(i * param));
+
+                p.mesh.Add(gamma0);
+                p.mesh.Add(gamma1);
+
+                p.u.Add((double)p.f0.DynamicInvoke(gamma0));
+                p.u.Add((double)p.f1.DynamicInvoke(gamma1));
+
+            }
+
+            // do writing to file mesh and u as x y u
+
         }
 
         public void GenerateMesh()
         {
             p.mesh = new List<Vector<double>>();
 
-            for (double i = 0; i <= p.R; i += step)
+            for (double i = 0; i <= p.R; i += meshStep)
             {
-                for (double j = 0; j <= p.R; j += step)
+                for (double j = 0; j <= p.R; j += meshStep)
                     if (i * i + j * j < p.R * p.R)
                     {
                         p.mesh.Add(new Vector<double>(i, j));
@@ -54,6 +91,14 @@ namespace IntegralEquationsIndividual
                 }
                 else
                     k++;
+            }
+
+            double param = 2 * Math.PI / pointsOnCurve;
+            for (int i = 0; i < pointsOnCurve; i++)
+            {
+                p.mesh.Add(new Vector<double>(
+                    (double)p.Gamma2.a.DynamicInvoke(i * param), 
+                    (double)p.Gamma2.b.DynamicInvoke(i * param)));
             }
         }
         Vector<double> FindLeftBottomCornerOfMinRectangleFor(Vector<Delegate> vect)
@@ -102,42 +147,35 @@ namespace IntegralEquationsIndividual
                 for (int j = 0; j < n; j++)
                 {
                     Matrix[i, j] = GreenFunction.Aphi1(p, i * param, j * param, n);
-                }
-                for (int j = n; j < 2 * n - 1; j++)
-                {
-                    Matrix[i, j] = GreenFunction.Bphi2(p, i * param, j * param);
-                }
-            }
 
-            for (int i = n; i < 2 * n - 1; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    Matrix[i, j] = GreenFunction.Cphi1(p, i * param, j * param);
-                }
-                for (int j = n; j < 2 * n - 1; j++)
-                {
-                    Matrix[i, j] = GreenFunction.Dphi2(p, i * param, j * param);
+                    Matrix[i, j + n] = GreenFunction.Bphi2(p, i * param, j * param);
+
+                    Matrix[i + n, j] = GreenFunction.Cphi1(p, i * param, j * param);
+
+                    Matrix[i + n, j + n] = GreenFunction.Dphi2(p, i * param, j * param);
                     if (i == j)
-                        Matrix[i, j] += 1 / 2d;
+                        Matrix[i, j] += 0.5;
                 }
             }
-
 
             return Matrix;
         }
 
-        public static double[] Vector(int n, Problem p, Vector<double> x)
+        public static double[] Vector(int n, Problem p)
         {
             double[] vector = new double[2 * n];
 
+            double param = 2 * Math.PI / n;
+
             for (int j = 0; j < n; j++)
             {
-                vector[j] = IntegralsEvaluator.IntegralU0(p, x);
-            }
-            for (int j = n; j < 2 * n - 1; j++)
-            {
-                vector[j] = 0;
+                vector[j] = IntegralsEvaluator.IntegralU0(p,new Vector<double>(
+                    (double)p.Gamma1.a.DynamicInvoke(j * param), 
+                    (double)p.Gamma1.b.DynamicInvoke(j * param)));
+
+                vector[j + n] = IntegralsEvaluator.IntegralU0Der(p,new Vector<double>(
+                    (double)p.Gamma2.a.DynamicInvoke(j * param), 
+                    (double)p.Gamma2.b.DynamicInvoke(j * param)));
             }
 
             return vector;
